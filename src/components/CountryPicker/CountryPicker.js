@@ -42,9 +42,7 @@ export const CountryPicker = () => {
 
       <div className="select">
         <select name="format" id="format" value={country} onChange={(event) => {setCountry(event.target.value)}}>
-          {Object.keys(sorted_codes).map((key, index) => {
-            return <option key={index} value={sorted_codes[key]}>{key}</option>
-          })}
+          {Object.keys(sorted_codes).map((key, index) => <option key={index} value={sorted_codes[key]}>{key}</option>)}
           </select>
       </div>
     </div>
