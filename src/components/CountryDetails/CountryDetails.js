@@ -12,6 +12,7 @@ const fetchCountry = async country => {
   return data;
 };
 
+// Enkel funktion för att kunna visa stora tal lite snyggare
 const numberWithSpaces = x => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 };
@@ -19,6 +20,8 @@ const numberWithSpaces = x => {
 export const CountryDetails = () => {
   const { country } = useContext(CountryContext);
 
+  // useQuery är smidigt att använda för att kunna visa
+  // t.ex. en spinner och ev. fel vid fetch
   const { data, isLoading, error } = useQuery(['country', country], () =>
     fetchCountry(country),
   );
@@ -26,6 +29,8 @@ export const CountryDetails = () => {
   if (isLoading) return <span>loading...</span>;
   if (error) return <span>oops!! error occured {error}</span>;
 
+  // Datat som kommer från 'restcountries' varierar mycket så det krävs
+  // lite handpåläggning för att plocka ut och snygga till datat.
   const { name, currencies, capital, languages, area, flags, population, car } =
     data[0];
   const officialName = name.official;
@@ -36,46 +41,74 @@ export const CountryDetails = () => {
   }
 
   const pngFlag = flags.png;
+  const allLanguages = Object.values(languages)
+    .map(lang => lang)
+    .join(', ');
   const carSign = car.signs[0];
+  const wholeCarSign = Object.values(carSign)
+    .map(sign => sign)
+    .join('');
 
   return (
     <div className="CountryDetails">
       <h2>{officialName}</h2>
       <img src={pngFlag} alt="flag"></img>
-      {currencies && (
-        <p>
-          <strong>Currency: </strong>
-          {Object.values(currencies).map((curr, i) => (
-            <span key={i}>{curr.name}</span>
-          ))}
-        </p>
-      )}
-      {capital && (
-        <p>
-          <strong>Capital: </strong>
-          <span>{city} </span>
-        </p>
-      )}
-      <p>
-        <strong>Languages: </strong>
-        {Object.values(languages).map((lang, i) => (
-          <span key={i}>{lang} </span>
-        ))}
-      </p>
-      <p>
-        <strong>Area: </strong>
-        {numberWithSpaces(area)} km&#178;
-      </p>
-      <p>
-        <strong>Population: </strong>
-        {numberWithSpaces(population)}
-      </p>
-      <p>
-        <strong>Car sign: </strong>
-        {Object.values(carSign).map((sign, i) => (
-          <span key={i}>{sign}</span>
-        ))}
-      </p>
+      <div className="country-data">
+        {currencies && (
+          <div className="details">
+            <p>
+              <strong>Currency: </strong>
+            </p>
+            <p>
+              {Object.values(currencies).map((curr, i) => (
+                <span key={i}>{curr.name}</span>
+              ))}
+            </p>
+          </div>
+        )}
+        {capital && (
+          <div className="details">
+            <p>
+              <strong>Capital: </strong>
+            </p>
+            <p>
+              <span>{city} </span>
+            </p>
+          </div>
+        )}
+        <div className="details">
+          <p>
+            <strong>Languages: </strong>
+          </p>
+          <p>
+            <span>{allLanguages}</span>
+          </p>
+        </div>
+        <div className="details">
+          <p>
+            <strong>Area: </strong>
+          </p>
+          <p>
+            <span>{numberWithSpaces(area)} km&#178;</span>
+          </p>
+        </div>
+        <div className="details">
+          <p>
+            <strong>Population: </strong>
+          </p>
+          <p>
+            <span>{numberWithSpaces(population)}</span>
+          </p>
+        </div>
+        <div className="details">
+          <p>
+            <strong>Car sign: </strong>
+          </p>
+          <p>
+            <span>{wholeCarSign}</span>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
