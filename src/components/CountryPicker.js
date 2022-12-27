@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { CountryContext } from '../../contexts/countryContext';
+import { CountryContext } from '../App';
 
 export const CountryPicker = () => {
   const { country, setCountry } = useContext(CountryContext);

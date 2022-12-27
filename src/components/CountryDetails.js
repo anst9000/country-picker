@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useQuery } from 'react-query';
-import { CountryContext } from '../../contexts/countryContext';
+import { CountryContext } from '../App';
 
 const URL = 'https://restcountries.com/v3.1/alpha/';
 

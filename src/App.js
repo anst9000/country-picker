@@ -1,12 +1,24 @@
-import { Home } from "./components";
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-const queryClient = new QueryClient()
+import { CountryPicker } from './components/CountryPicker';
+import { CountryDetails } from './components/CountryDetails';
+
+import { createContext, useState } from 'react';
+export const CountryContext = createContext();
+
+const queryClient = new QueryClient();
 
 function App() {
+  const [country, setCountry] = useState('SE');
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Home />
+      <CountryContext.Provider value={{ country, setCountry }}>
+        <div className="App">
+          <CountryPicker />
+          <CountryDetails />
+        </div>
+      </CountryContext.Provider>
     </QueryClientProvider>
   );
 }

@@ -15,8 +15,8 @@ body {
   font-family: Roboto, 'Open Sans', sans-serif;
 }
 
-/* STYLES FOR COMPONENT Home */
-.Home {
+/* STYLES FOR COMPONENT App */
+.App {
   background-color: #bbbbbb;
   display: flex;
   flex-direction: column;
